@@ -11,7 +11,8 @@ Vagrant.configure(2) do |config|
     couchbase.vm.hostname = "couchbase"
 
     couchbase.vm.network :private_network, ip: "192.168.202.201"
-
+    couchbase.vm.network :forwarded_port, guest: 8091, host: 8091
+    
     couchbase.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
     end
