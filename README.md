@@ -1,31 +1,86 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Installs couchbase DB - http://www.couchbase.com/
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Define Ansible host inventory as example below in order to configure cluster.
+````
+[couchbase-master]
+couchbase01 ansible_ssh_host=192.168.202.201
+
+[couchbase-servers]
+couchbase02 ansible_ssh_host=192.168.202.202
+couchbase03 ansible_ssh_host=192.168.202.203
+````
+
+Vagrant
+-------
+Spin up Environment under Vagrant to test. This environment has 3 nodes (1-master and 2-members)
+````
+vagrant up
+````
+
+Usage
+-----
+
+###### Non-Vagrant
+Login to WebUI using defined owncloud_admin_user and owncloud_admin_pass vars (http://iporhostname:8091)
+
+###### Vagrant
+Login to WebUI using defined owncloud_admin_user and owncloud_admin_pass vars (http://127.0.0.1:8091)
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+````
+---
+# defaults file for ansible-couchbase
+couchbase_admin_pass: 'P@55w0rd'
+couchbase_admin_user: 'admin'
+couchbase_cli: '/opt/couchbase/bin/couchbase-cli'
+couchbase_cluster_ram_multiplier: 0.5
+couchbase_cluster_ram_quota: '{{ (ansible_memtotal_mb | int * couchbase_cluster_ram_multiplier) | round | int }}'
+couchbase_config_cluster: false  #defines if couchbase cluster should be initialized
+couchbase_debian_package: 'couchbase-server-community_{{ couchbase_version }}-{{ ansible_distribution|lower }}{{ ansible_distribution_version }}_amd64.deb'
+couchbase_debian_package_dl: 'http://packages.couchbase.com/releases/{{ couchbase_version }}/'
+couchbase_version: '4.0.0'
+````
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+#### GitHub
+````
+---
+- name: provisions Couchbase
+  hosts: all
+  become: true
+  vars:
+    - couchbase_config_cluster: true
+  roles:
+    - role: ansible-couchbase
+  tasks:
+````
+#### Galaxy
+````
+---
+- name: provisions Couchbase
+  hosts: all
+  become: true
+  vars:
+    - couchbase_config_cluster: true
+  roles:
+    - role: mrlesmithjr.couchbase
+  tasks:
+````
 
 License
 -------
@@ -35,4 +90,7 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Larry Smith Jr.
+- @mrlesmithjr
+- http://everythingshouldbevirtual.com
+- mrlesmithjr [at] gmail.com
