@@ -16,6 +16,7 @@ Vagrant.configure(2) do |config|
     couchbase01.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
     end
+    couchbase01.vm.provision :shell, inline: 'ansible-playbook -i /vagrant/hosts -c local /vagrant/playbook.yml --limit "couchbase01"'
   end
   config.vm.define "couchbase02" do |couchbase02|
     couchbase02.vm.box = "mrlesmithjr/trusty64"
@@ -26,12 +27,8 @@ Vagrant.configure(2) do |config|
     couchbase02.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
     end
+    couchbase02.vm.provision :shell, inline: 'ansible-playbook -i /vagrant/hosts -c local /vagrant/playbook.yml --limit "couchbase02"'
   end  
   config.vm.provision :shell, path: "provision.sh", keep_color: "true"
   config.vm.provision :shell, inline: 'ansible-galaxy install -r /vagrant/requirements.yml -f'
-#  config.vm.provision :shell, inline: 'ansible-playbook -i /vagrant/hosts -c local /vagrant/playbook.yml'
-  config.vm.provision "ansible" do |ansible|
-    ansible.verbose = "v"
-    ansible.playbook = "playbook.yml"
-  end
 end
