@@ -1,0 +1,4 @@
+---
+- name: config_cluster | creating cluster
+  shell: "{{ couchbase_cli }} cluster-init -c 127.0.0.1:8091 --cluster-init-username={{ couchbase_admin_user }} --cluster-init-password={{ couchbase_admin_pass }} --cluster-init-port=8091 --cluster-init-ramsize={{ couchbase_cluster_ram_size }}"
+  when: couchbase_master

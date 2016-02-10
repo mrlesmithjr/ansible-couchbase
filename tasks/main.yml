@@ -2,3 +2,8 @@
 # tasks file for ansible-couchbase
 - include: debian.yml
   when: ansible_os_family == "Debian"
+
+- include: config_cluster.yml
+  when: >
+        couchbase_config_cluster is defined and
+        couchbase_config_cluster

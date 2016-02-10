@@ -3,6 +3,7 @@
   hosts: all
   become: true
   vars:
+    - couchbase_config_cluster: true
   roles:
     - role: ansible-couchbase
   tasks:
