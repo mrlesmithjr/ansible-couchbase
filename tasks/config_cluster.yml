@@ -16,7 +16,7 @@
   register: cluster_created
   with_items: groups['couchbase-master']
   when: >
-        inventory_hostname == item and
+        (inventory_hostname == item) and
         not couchbase_cluster_created.stat.exists
 
 - name: config_cluster | marking cluster as created
@@ -25,7 +25,7 @@
     state: touch
   with_items: groups['couchbase-master']
   when: >
-        inventory_hostname == item and
+        (inventory_hostname == item) and
         cluster_created.changed
 
 - name: config_cluster | checking if joined to cluster
@@ -41,7 +41,7 @@
   register: joined_cluster
   with_items: groups['couchbase-master']
   when: >
-        inventory_hostname != item and
+        (inventory_hostname != item) and
         not couchbase_joined_cluster.stat.exists
 
 - name: config_cluster | marking as joined cluster
@@ -50,5 +50,5 @@
     state: touch
   with_items: groups['couchbase-master']
   when: >
-        inventory_hostname != item and
+        (inventory_hostname != item) and
         joined_cluster.changed
