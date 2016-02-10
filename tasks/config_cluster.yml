@@ -17,7 +17,7 @@
   with_items: groups['couchbase-master']
   when: >
         (inventory_hostname == item) and
-        not couchbase_cluster_created.stat.exists
+        not couchbase_cluster_created.item.stat.exists
 
 - name: config_cluster | marking cluster as created
   file:
@@ -26,7 +26,7 @@
   with_items: groups['couchbase-master']
   when: >
         (inventory_hostname == item) and
-        cluster_created.changed
+        cluster_created.item.changed
 
 - name: config_cluster | checking if joined to cluster
   stat:
@@ -42,7 +42,7 @@
   with_items: groups['couchbase-master']
   when: >
         (inventory_hostname != item) and
-        not couchbase_joined_cluster.stat.exists
+        not couchbase_joined_cluster.item.stat.exists
 
 - name: config_cluster | marking as joined cluster
   file:
@@ -51,4 +51,4 @@
   with_items: groups['couchbase-master']
   when: >
         (inventory_hostname != item) and
-        joined_cluster.changed
+        joined_cluster.item.changed
