@@ -1,0 +1,8 @@
+---
+- name: provisions Couchbase
+  hosts: all
+  become: true
+  vars:
+  roles:
+    - role: ansible-couchbase
+  tasks:
