@@ -3,6 +3,8 @@ Role Name
 
 Installs couchbase DB - http://www.couchbase.com/
 
+[![Build Status](https://travis-ci.org/mrlesmithjr/ansible-couchbase.svg?branch=master)](https://travis-ci.org/mrlesmithjr/ansible-couchbase)
+
 Requirements
 ------------
 
