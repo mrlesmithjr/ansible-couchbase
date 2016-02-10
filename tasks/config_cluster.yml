@@ -5,4 +5,12 @@
     
 - name: config_cluster | creating cluster
   shell: "{{ couchbase_cli }} cluster-init -c 127.0.0.1:8091 --cluster-init-username={{ couchbase_admin_user }} --cluster-init-password={{ couchbase_admin_pass }} --cluster-init-port=8091 --cluster-init-ramsize={{ couchbase_cluster_ram_quota }} --service='data;index;query'"
-  when: couchbase_master
+  with_items: groups['couchbase-master']
+  when: >
+        inventory_hostname == item
+
+- name: config_cluster | joining cluster
+  shell: "{{ couchbase_cli }} rebalance -c {{ item.ansible_ssh_host }}:8091 -u {{ couchbase_admin_user }} -p {{ couchbase_admin_pass }} --server-add={{ ansible_ssh_host }}:8091 --server-add-username={{ couchbase_admin_user }} --server-add-password={{ couchbase_admin_pass }} --service='data;index;query'"
+  with_items: groups['couchbase-master']
+  when: >
+        inventory_hostname != item
