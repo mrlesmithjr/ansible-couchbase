@@ -4,6 +4,7 @@
   become: true
   vars:
     - couchbase_config_cluster: true
+    - couchbase_manage_buckets: true
   roles:
     - role: ansible-couchbase
   tasks:

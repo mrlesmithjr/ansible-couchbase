@@ -7,3 +7,8 @@
   when: >
         couchbase_config_cluster is defined and
         couchbase_config_cluster
+
+- include: manage_buckets.yml
+  when: >
+        couchbase_manage_buckets is defined and
+        couchbase_manage_buckets
