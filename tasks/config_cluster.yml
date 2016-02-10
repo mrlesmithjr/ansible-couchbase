@@ -10,7 +10,7 @@
         inventory_hostname == item
 
 - name: config_cluster | joining cluster
-  shell: "{{ couchbase_cli }} rebalance -c {{ item.ansible_ssh_host }}:8091 -u {{ couchbase_admin_user }} -p {{ couchbase_admin_pass }} --server-add={{ ansible_ssh_host }}:8091 --server-add-username={{ couchbase_admin_user }} --server-add-password={{ couchbase_admin_pass }} --service='data;index;query'"
+  shell: "{{ couchbase_cli }} rebalance -c {{ hostvars[item].ansible_ssh_host }}:8091 -u {{ couchbase_admin_user }} -p {{ couchbase_admin_pass }} --server-add={{ ansible_ssh_host }}:8091 --server-add-username={{ couchbase_admin_user }} --server-add-password={{ couchbase_admin_pass }} --service='data;index;query'"
   with_items: groups['couchbase-master']
   when: >
         inventory_hostname != item
