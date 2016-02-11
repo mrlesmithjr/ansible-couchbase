@@ -3,6 +3,9 @@
 couchbase_admin_pass: 'P@55w0rd'
 couchbase_admin_user: 'admin'
 couchbase_buckets:
+  - name: test01
+    ram_size: 256
+    state: absent
   - name: test-01
     ram_size: 256
     state: present
