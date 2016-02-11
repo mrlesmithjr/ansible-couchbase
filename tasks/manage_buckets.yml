@@ -12,7 +12,7 @@
         item.name not in couchbase_bucket_list.stdout and
         item.state == "present"
 
-- name: manage_buckets | creating buckets
+- name: manage_buckets | deleting buckets
   shell: "{{ couchbase_cli }} bucket-delete -c 127.0.0.1:8091 -u {{ couchbase_admin_user }} -p {{ couchbase_admin_pass }} --bucket={{ item.name }}"
   run_once: true
   with_items: couchbase_buckets
