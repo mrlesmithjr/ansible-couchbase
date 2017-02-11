@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
     couchbase01.vm.hostname = "couchbase01"
 
     couchbase01.vm.network :private_network, ip: "192.168.202.201"
-    couchbase01.vm.network :forwarded_port, guest: {{ couchbase_rest_http_port }}, host: {{ couchbase_rest_http_port }}
+    couchbase01.vm.network :forwarded_port, guest: 8091, host: 8091
 
     couchbase01.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
@@ -39,7 +39,7 @@ Vagrant.configure(2) do |config|
       vb.memory = "2048"
     end
     couchbase03.vm.provision :shell, inline: 'ansible-playbook -i /vagrant/hosts -c local /vagrant/playbook.yml --limit "couchbase03"'
-  end 
+  end
   config.vm.provision :shell, path: "provision.sh", keep_color: "true"
   config.vm.provision :shell, inline: 'ansible-galaxy install -r /vagrant/requirements.yml -f'
 end
